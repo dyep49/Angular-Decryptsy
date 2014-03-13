@@ -2,7 +2,7 @@ class CoinpairsController < ApplicationController
 	respond_to :json
 
 	def index
-		respond_with Coinpair.where(exchange_id: 1)
+		respond_with Coinpair.where(exchange_id: 1).where(secondary: 'BTC')
 	end
 
 	def depth

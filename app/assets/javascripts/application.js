@@ -15,6 +15,7 @@
 //= require_tree ../../../vendor/assets/javascripts/
 //= require angular
 //= require angular-resource
+//= require angular-route
 //= require main.js
 //= require_tree ./angular
 //= require_tree .
