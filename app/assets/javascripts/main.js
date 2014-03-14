@@ -5,7 +5,12 @@ app.config(function($routeProvider){
 		.when('/',{
 			templateUrl : 'templates/home.html',
 			controller  : 'CoinpairsCtrl'
-		});
+		})
+
+		.when('/arbitrage',{
+			templateUrl : 'templates/arbitrage.html',
+			controller  : 'CoinpairsCtrl'
+		})
 });
 
 

@@ -54,7 +54,7 @@ class Order < ActiveRecord::Base
 		bter = Exchange.where(name: 'bter').first
 		pairs = HTTParty.get('http://data.bter.com/api/1/pairs')
 		pairs.each do |pair|
-			code = pair.scan(/[a-z]+/)
+			code = pair.scan(/[a-z0-9]+/)
 			primary = code[0].upcase
 			secondary = code[1].upcase
 			new_coin_pair = Coinpair.where(primary: primary).where(secondary: secondary).where(exchange_id: bter.id)

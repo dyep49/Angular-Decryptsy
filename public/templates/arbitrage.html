@@ -1,0 +1,26 @@
+<h1>Arbitrage Opportunities</h1>
+
+Search: <input ng-model="query">
+
+<table ng-controller="ArbitrageCtrl">
+	<thead>
+		<th>Buy at</th>
+		<th>Sell at</th>
+		<th>Pair</th>
+		<th>Quantity</th>
+		<th>Highest Bid</th>
+		<th>Lowest Ask</th>
+		<th>Profit</th>
+	</thead>
+	<tbody>
+		<tr ng-repeat="arbitrage in arbitrages | filter:query">
+			<td>{{arbitrage.buy_exchange}}</td>
+			<td>{{arbitrage.sell_exchange}}</td>
+			<td>{{arbitrage.primary}}/{{arbitrage.secondary}}</td>
+			<td>{{arbitrage.quantity}}</td>
+			<td>{{arbitrage.highest_bid}}</td>
+			<td>{{arbitrage.lowest_ask}}</td>
+			<td>{{arbitrage.profit}}</td>
+		</tr>
+	</tbody>
+</table>
