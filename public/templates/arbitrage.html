@@ -14,8 +14,8 @@ Search: <input ng-model="query">
 	</thead>
 	<tbody>
 		<tr ng-repeat="arbitrage in arbitrages | filter:query">
-			<td>{{arbitrage.buy_exchange}}</td>
-			<td>{{arbitrage.sell_exchange}}</td>
+			<td>{{arbitrage.buy_exchange|capitalize}}</td>
+			<td>{{arbitrage.sell_exchange|capitalize}}</td>
 			<td>{{arbitrage.primary}}/{{arbitrage.secondary}}</td>
 			<td>{{arbitrage.quantity}}</td>
 			<td>{{arbitrage.highest_bid}}</td>

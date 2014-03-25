@@ -4,6 +4,11 @@ app.factory('Coinpair', ['$resource', '$http', function($resource, $http){
 			'/api/coinpairs/:coinpairId', {coinpairId: '@id'})
 	};
 
+Coinpair.prototype.show = function(id){
+	return this.service.query({coinpairId: id});
+}
+
+
 Coinpair.prototype.all = function(){
 	self = this
 	return this.service.query(function(data){
@@ -91,7 +96,6 @@ Coinpair.prototype.all = function(){
 		});
 	});
 };
-
 
 	return new Coinpair;
 }]);

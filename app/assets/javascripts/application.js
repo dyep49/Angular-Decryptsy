@@ -17,5 +17,6 @@
 //= require angular-resource
 //= require angular-route
 //= require main.js
+//= require filters.js
 //= require_tree ./angular
 //= require_tree .

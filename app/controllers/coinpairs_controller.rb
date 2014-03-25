@@ -5,6 +5,11 @@ class CoinpairsController < ApplicationController
 		respond_with Coinpair.where(exchange_id: 1).where(secondary: 'BTC')
 	end
 
+	def show
+		respond_with Coinpair.where(id: params[:id])
+	end
+
+
 	def depth
 		market_id = params["market_id"].to_i
 

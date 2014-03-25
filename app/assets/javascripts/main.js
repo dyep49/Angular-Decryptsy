@@ -11,6 +11,11 @@ app.config(function($routeProvider){
 			templateUrl : 'templates/arbitrage.html',
 			controller  : 'CoinpairsCtrl'
 		})
+
+		.when('/coinpair/:coinpair_id',{
+			templateUrl : 'templates/coinpair.html',
+			controller  : 'CoinpairShowCtrl'
+		})
 });
 
 
