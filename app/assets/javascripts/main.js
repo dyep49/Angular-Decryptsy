@@ -6,12 +6,10 @@ app.config(function($routeProvider){
 			templateUrl : 'templates/home.html',
 			controller  : 'CoinpairsCtrl'
 		})
-
 		.when('/arbitrage',{
 			templateUrl : 'templates/arbitrage.html',
 			controller  : 'CoinpairsCtrl'
 		})
-
 		.when('/coinpair/:coinpair_id',{
 			templateUrl : 'templates/coinpair.html',
 			controller  : 'CoinpairShowCtrl'
