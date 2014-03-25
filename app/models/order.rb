@@ -12,6 +12,7 @@ class Order < ActiveRecord::Base
 		cryptsy = Cryptsy::API::Client.new(ENV["CRYPTSY_PUBLIC_KEY"], ENV["CRYPTSY_PRIVATE_KEY"])
 		response = cryptsy.orderdata["return"].values
 		markets = cryptsy.marketdata["return"]["markets"]
+		binding.pry
 		response.each do |coinpair|
 			marketid = coinpair["marketid"].to_i
 			new_coin_pair = Coinpair.where(market_id: marketid)
@@ -27,6 +28,7 @@ class Order < ActiveRecord::Base
 
 				new_coin_pair = Coinpair.create(primary: primary, secondary: secondary, market_id: marketid, last_trade: last_trade, volume: volume, last_trade_time: last_trade_time)
 			end
+			begin
 			sells = coinpair["sellorders"]
 			sells.each do |sell|
 				type = "sell"
@@ -47,7 +49,10 @@ class Order < ActiveRecord::Base
 				new_coin_pair.orders << order
 			end
 			exchange.coinpairs << new_coin_pair
-		end
+			rescue
+				puts "-------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+			end
+		end			
 	end
 
 	def self.bter_depth

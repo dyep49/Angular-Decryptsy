@@ -1,4 +1,4 @@
-var app = angular.module("Decryptsy", ['ngResource', 'ngRoute']);
+var app = angular.module("Decryptsy", ['ngResource', 'ngRoute', 'd3']);
 
 app.config(function($routeProvider){
 	$routeProvider
