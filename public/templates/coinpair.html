@@ -1,10 +1,37 @@
-<p ng-repeat="coinpair in coinpairs">
-	{{coinpair.primary}}
-	{{coinpair.secondary}}
-</p>
+<h1>{{coinpairs[0].primary}}/{{coinpairs[0].secondary}}</h1>
+
+<table class="table table-striped table-responsive">
+	<thead>
+		<th>Primary</th>
+		<th>Secondary</th>
+		<th>Last Trade</th>
+		<th>Volume</th>
+		<th>Last Trade Time</th>
+		<th>BTC to 50%</th>
+		<th>BTC to 100%</th>
+		<th>BTC to 125%</th>
+		<th>BTC to 150%</th>
+		<th>BTC to 200%</th>
+	</thead>
+	<tbody>
+		<tr ng-repeat="coinpair in coinpairs">
+			<td>{{coinpair.primary}}</td>
+			<td>{{coinpair.secondary}}</td>
+			<td>{{coinpair.last_trade}}</td>
+			<td>{{coinpair.volume}}</td>
+			<td>{{coinpair.last_trade_time}}</td>
+			<td>{{coinpair.halfWall}}</td>
+			<td>{{coinpair.doubleWall}}</td>
+			<td>{{coinpair.secondWall}}</td>
+			<td>{{coinpair.thirdWall}}</td>
+			<td>{{coinpair.fourthWall}}</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Last Trade: {{lastPrice[0]}}</h2>
 
 <d3-line sell="sellData" buy="buyData">
 </d3-line>
 
-{{sellData}}
 

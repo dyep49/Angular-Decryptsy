@@ -106,11 +106,16 @@ app.directive('d3Line', ['d3Service', 'Depth', function(d3Service, Depth){
 
 					svg.append("path")
 						.attr("id", "green")
-						.attr("d", line(buy_data_array));
+						.attr("d", line(buy_data_array))
+						.transition()
+						.duration(2000)
 
 					svg.append("path")
 						.attr("id", "red")
-						.attr("d", line(sell_data_array));
+						.attr("d", line(sell_data_array))
+						.transition()
+						.duration(2000)
+
 				
 					svg.append("g")
 						.attr("class", "x axis")

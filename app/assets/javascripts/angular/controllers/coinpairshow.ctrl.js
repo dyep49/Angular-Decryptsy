@@ -3,6 +3,7 @@ app.controller('CoinpairShowCtrl', ['$scope', '$routeParams', 'Coinpair', 'Depth
 	function init(){
 		console.log('grabbing_depth');
 		Depth.getData($routeParams.coinpair_id)
+		Depth.lastPrice($routeParams.coinpair_id)
 	}
 
 	init();
@@ -10,9 +11,11 @@ app.controller('CoinpairShowCtrl', ['$scope', '$routeParams', 'Coinpair', 'Depth
 	var depthInterval = $interval(function(){
 		console.log('interval')
 		Depth.getData($routeParams.coinpair_id);
+		Depth.lastPrice($routeParams.coinpair_id);
 		$timeout(function(){
 			$scope.buyData = Depth.buyData();
 			$scope.sellData = Depth.sellData();
+			$scope.lastPrice = Depth.getLastPrice();
 		}, 2000)
 		// $scope.buyData = [1,2,3,4]
 	}, 5000)
@@ -20,6 +23,7 @@ app.controller('CoinpairShowCtrl', ['$scope', '$routeParams', 'Coinpair', 'Depth
 	$scope.sellData = Depth.sellData();
 	$scope.buyData = Depth.buyData();
 
+	$scope.lastPrice = Depth.getLastPrice();
 
 	$scope.coinpairs = Coinpair.show($routeParams.coinpair_id)
 
@@ -27,6 +31,9 @@ app.controller('CoinpairShowCtrl', ['$scope', '$routeParams', 'Coinpair', 'Depth
 		console.log('leaving')
 		$interval.cancel(depthInterval)
 	})
+
+
+
 
 
 }]);

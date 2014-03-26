@@ -43,4 +43,18 @@ app.service('Depth', ['$http', function($http){
 		return buy_data_array
 	}
 
+	var lastPrice = []
+
+	this.lastPrice = function(id){
+		lastPrice =  []
+		$http.get('/api/last_price/' + id)
+			.success(function(data){
+				lastPrice.push(data);
+			})
+	}
+
+	this.getLastPrice = function(){
+		return lastPrice
+	} 
+
 }])
