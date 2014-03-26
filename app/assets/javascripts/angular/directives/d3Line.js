@@ -26,6 +26,7 @@ app.directive('d3Line', ['d3Service', 'Depth', function(d3Service, Depth){
 			    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 				scope.$watch('sell', function(newVal, oldVal){
+					console.log('stuff')
 					setTimeout(function(){
 						scope.render(scope.buy, scope.sell)
 					}, 1000)

@@ -34,10 +34,6 @@ app.service('Depth', ['$http', function($http){
 			})
 	}
 
-	this.fuckshitup = function(){
-		sell_data_array = []
-	}
-
 	this.sellData = function(){
 		console.log(sell_data_array);
 		return sell_data_array
