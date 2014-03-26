@@ -19,7 +19,7 @@
 			<td>{{coinpair.secondary}}</td>
 			<td>{{coinpair.last_trade}}</td>
 			<td>{{coinpair.volume}}</td>
-			<td>{{Date(coinpair.last_trade_time)}}</td>
+			<td>{{coinpair.last_trade_time}}</td>
 			<td>{{coinpair.halfWall}}</td>
 			<td>{{coinpair.doubleWall}}</td>
 			<td>{{coinpair.secondWall}}</td>
@@ -33,5 +33,8 @@
 
 <d3-line sell="sellData" buy="buyData">
 </d3-line>
+
+
+<d3-history candlestick="candlestickData" trade="tradeData"></d3-history>
 
 

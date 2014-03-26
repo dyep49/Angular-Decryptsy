@@ -4,16 +4,40 @@ Search Table: <input ng-model="query">
 
 <table ng-controller="ArbitrageCtrl" class="table table-striped table-hover">
 	<thead>
-		<th>Buy at</th>
-		<th>Sell at</th>
-		<th>Pair</th>
-		<th>Quantity</th>
-		<th>Highest Bid</th>
-		<th>Lowest Ask</th>
-		<th>Profit</th>
+		<th>
+			<a href="" ng-click="orderByField='buy_exchange'; reverseSort = !reverseSort">Buy at
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='sell_exchange'; reverseSort = !reverseSort">
+			Sell at
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='primary'; reverseSort = !reverseSort">Pair
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='quantity'; reverseSort = !reverseSort">Quantity
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='highest_bid'; reverseSort = !reverseSort">Highest Bid
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='lowest_ask'; reverseSort = !reverseSort">
+			Lowest Ask
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='profit'; reverseSort = !reverseSort">
+				Profit
+			</a>
+		</th>
 	</thead>
 	<tbody>
-		<tr ng-repeat="arbitrage in arbitrages | filter:query">
+		<tr ng-repeat="arbitrage in arbitrages | orderBy:orderByField:reverseSort | filter:query">
 			<td>{{arbitrage.buy_exchange|capitalize}}</td>
 			<td>{{arbitrage.sell_exchange|capitalize}}</td>
 			<td>{{arbitrage.primary}}/{{arbitrage.secondary}}</td>
