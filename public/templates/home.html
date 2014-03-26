@@ -19,7 +19,7 @@ Search Table: <input ng-model="query">
 		<th>BTC to 200%</th>
 	</thead>
 	<tbody>
-		<tr ng-repeat="coinpair in coinpairs | filter:query" ng-click="showCoinpair(coinpair.market_id)">
+		<tr ng-repeat="coinpair in coinpairs | filter:query" ng-click="showCoinpair(coinpair.id)">
 			<td>{{coinpair.primary}}</td>
 			<td>{{coinpair.secondary}}</td>
 			<td>{{coinpair.last_trade}}</td>

@@ -18,12 +18,12 @@ class CoinpairsController < ApplicationController
 	end
 
 	def live_depth
-		pair_id = params["pair_id"]
+		market_id = Coinpair.find(params["coinpair_id"]).market_id
 		cryptsy = Cryptsy::API::Client.new(ENV["CRYPTSY_PUBLIC_KEY"], ENV["CRYPTSY_PRIVATE_KEY"])
 		respond_to do |format|
 			format.html
-			format.json do 
-				response = cryptsy.depth(pair_id)
+			format.json do
+				response = cryptsy.depth(market_id)
 				parsed_response = response["return"]
 				render json: parsed_response.to_json
 			end

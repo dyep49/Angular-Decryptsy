@@ -1,0 +1,127 @@
+/* tell the SVG path to be a thin blue line without any area fill */
+#red {
+	stroke: darkred;
+	stroke-width: 2;
+	/*fill: red;*/
+	fill: none;
+}
+
+#green {
+	/*fill: green;*/
+	stroke: green;
+	stroke-width: 2;
+	fill: none;
+}
+
+#black {
+	stroke: black;
+	stroke-width: 2;
+	fill: none;
+}
+
+#blue {
+	stroke: blue;
+	stroke-width: 2;
+	fill: none;
+
+
+}
+
+#orange {
+	stroke: orange;
+	stroke-width: 2;
+	fill: none;
+
+}
+
+#purple {
+	stroke: purple;
+	stroke-width: 2;
+	fill: none;
+
+}
+
+/*path { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}*/
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+svg{
+	margin: 0 auto;
+	display: block;
+	/*text-align: center;*/
+}
+
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+.grid path {
+    stroke-width: 0;
+}
+
+h1{
+	text-align: center;
+}
+
+.progress {
+	display: none;
+}
+
+.table-scroll{
+	max-height: 400px;
+	/*width: 100%;*/
+	overflow: auto;
+	/*overflow-x: hidden;*/
+}
+
+.arbitrage{
+	display: none;
+}
+
+h2 {
+	text-align: center;
+}
+
+.twitter-timeline{
+	width: 300px;
+	height: 500px;
+}
+
+#wide {
+	width: 600px;
+	height: 200px;
+	margin-bottom: 10px
+}
+
+td {
+	text-align: center;
+}
+
+.navbar-brand{
+	font-weight: bold;
+}
+
+#pump-graph{
+	margin: none;
+	vertical-align: top;
+}
+
+.pad {
+	margin-bottom: 25px;
+}
+
+#graph-div {
+	display: inline-block;
+	position: absolute;
+	vertical-align: top
+}

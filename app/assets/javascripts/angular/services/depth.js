@@ -9,6 +9,8 @@ app.service('Depth', ['$http', function($http){
 	var buy_data_array = []
 
 	this.getData = function(id, callback){
+		sell_data_array = []
+		buy_data_array = []
 		$http.get('/api/live_depth/' + id)
 			.success(function(data){
 				var sell_total = 0
@@ -32,8 +34,17 @@ app.service('Depth', ['$http', function($http){
 			})
 	}
 
+	this.fuckshitup = function(){
+		sell_data_array = []
+	}
+
 	this.sellData = function(){
+		console.log(sell_data_array);
 		return sell_data_array
+	}
+
+	this.buyData = function(){
+		return buy_data_array
 	}
 
 }])
