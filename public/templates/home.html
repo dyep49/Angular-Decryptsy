@@ -7,19 +7,59 @@ Search Table: <input ng-model="query">
 
 <table class="table table-striped table-hover">
 	<thead>
-		<th>Primary</th>
-		<th>Secondary</th>
-		<th>Last Trade</th>
-		<th>Volume</th>
-		<th>Last Trade Time</th>
-		<th>BTC to 50%</th>
-		<th>BTC to 100%</th>
-		<th>BTC to 125%</th>
-		<th>BTC to 150%</th>
-		<th>BTC to 200%</th>
+		<th>
+			<a href="" ng-click="orderByField='primary'; reverseSort = !reverseSort">
+			Primary
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='secondary'; reverseSort = !reverseSort">
+			Secondary
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='last_trade'; reverseSort = !reverseSort">
+			Last Trade
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='volume'; reverseSort = !reverseSort">
+			Volume
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='last_trade_time'; reverseSort = !reverseSort">
+			</a>
+			Last Trade Time
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='halfWall'; reverseSort = !reverseSort">
+			BTC to 50%
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='doubleWall'; reverseSort = !reverseSort">
+			BTC to 100%
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='secondWall'; reverseSort = !reverseSort">
+			BTC to 125%
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='thirdWall'; reverseSort = !reverseSort">
+			BTC to 150%
+			</a>
+		</th>
+		<th>
+			<a href="" ng-click="orderByField='fourthWall'; reverseSort = !reverseSort">
+			BTC to 200%
+			</a>
+	</th>
 	</thead>
 	<tbody>
-		<tr ng-repeat="coinpair in coinpairs | filter:query" ng-click="showCoinpair(coinpair.id)">
+		<tr ng-repeat="coinpair in coinpairs | orderBy:orderByField:reverseSort |filter:query" ng-click="showCoinpair(coinpair.id)">
 			<td>{{coinpair.primary}}</td>
 			<td>{{coinpair.secondary}}</td>
 			<td>{{coinpair.last_trade}}</td>

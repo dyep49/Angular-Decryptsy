@@ -19,7 +19,7 @@
 			<td>{{coinpair.secondary}}</td>
 			<td>{{coinpair.last_trade}}</td>
 			<td>{{coinpair.volume}}</td>
-			<td>{{coinpair.last_trade_time}}</td>
+			<td>{{Date(coinpair.last_trade_time)}}</td>
 			<td>{{coinpair.halfWall}}</td>
 			<td>{{coinpair.doubleWall}}</td>
 			<td>{{coinpair.secondWall}}</td>
@@ -29,7 +29,7 @@
 	</tbody>
 </table>
 
-<h2>Last Trade: {{lastPrice[0]}}</h2>
+<h2>Last Trade: {{lastPrice[0]}} {{coinpairs[0].secondary}}</h2>
 
 <d3-line sell="sellData" buy="buyData">
 </d3-line>

@@ -98,11 +98,11 @@ var calcResistance = function(coinpair){
 						fourthSellArray.push(total);
 					});
 
-					coinpair.halfWall = _.reduce(halfSellArray, function(memo, num){return memo + num;}, 0);
-					coinpair.doubleWall = _.reduce(doubleSellArray, function(memo, num){return memo + num;}, 0);
-					coinpair.secondWall = _.reduce(secondSellArray, function(memo, num){return memo + num;}, 0);
-					coinpair.thirdWall = _.reduce(thirdSellArray, function(memo, num){return memo + num;}, 0);
-					coinpair.fourthWall = _.reduce(fourthSellArray, function(memo, num){return memo + num;}, 0);
+					coinpair.halfWall = +(_.reduce(halfSellArray, function(memo, num){return memo + num;}, 0)).toFixed(8)
+					coinpair.doubleWall = (_.reduce(doubleSellArray, function(memo, num){return memo + num;}, 0)).toFixed(8);
+					coinpair.secondWall = (_.reduce(secondSellArray, function(memo, num){return memo + num;}, 0)).toFixed(8);
+					coinpair.thirdWall = (_.reduce(thirdSellArray, function(memo, num){return memo + num;}, 0).toFixed(8));
+					coinpair.fourthWall = (_.reduce(fourthSellArray, function(memo, num){return memo + num;}, 0)).toFixed(8);
 		});
 
 }
