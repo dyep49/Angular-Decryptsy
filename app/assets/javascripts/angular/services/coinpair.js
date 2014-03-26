@@ -26,6 +26,8 @@ Coinpair.prototype.show = function(id){
 var calcResistance = function(coinpair){
 			$http({method: 'GET', url: '/api/depth/' + coinpair.market_id}).
 				success(function(response){
+					coinpair.parsedTime = coinpair.last_trade_time.toString()
+
 					var response = response
 					var halfIndex;
 					var doubleIndex;

@@ -43,4 +43,17 @@ class CoinpairsController < ApplicationController
 		end
 	end
 
+	def history
+		market_id = Coinpair.find(params["coinpair_id"]).market_id
+		cryptsy = Cryptsy::API::Client.new(ENV["CRYPTSY_PUBLIC_KEY"], ENV["CRYPTSY_PRIVATE_KEY"])
+		respond_to do |format|
+			format.html
+			format.json do 
+				response = cryptsy.markettrades(market_id)
+				parsed_response = response["return"]
+				render json: parsed_response.to_json
+			end
+		end
+	end
+
 end

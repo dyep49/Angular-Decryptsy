@@ -125,3 +125,7 @@ td {
 	position: absolute;
 	vertical-align: top
 }
+
+th{
+	text-align: center;
+}

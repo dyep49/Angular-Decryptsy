@@ -13,11 +13,7 @@ app.directive('d3Line', ['d3Service', 'Depth', function(d3Service, Depth){
 		},
 		link: function(scope, element, attrs) {
 			d3Service.d3().then(function(d3){
-
-				var margin = {top: 20, right: 40, bottom: 20, left: 90};
-				var width = 960 - margin.left - margin.right
-				var height = 500 - margin.top - margin.bottom;
-
+				
 				var svg = d3.select(element[0])
 					.append('svg')
 			    .attr("width", width + margin.left + margin.right)
@@ -106,11 +102,16 @@ app.directive('d3Line', ['d3Service', 'Depth', function(d3Service, Depth){
 
 					svg.append("path")
 						.attr("id", "green")
-						.attr("d", line(buy_data_array));
+						.attr("d", line(buy_data_array))
+						.transition()
+						.duration(2000)
 
 					svg.append("path")
 						.attr("id", "red")
-						.attr("d", line(sell_data_array));
+						.attr("d", line(sell_data_array))
+						.transition()
+						.duration(2000)
+
 				
 					svg.append("g")
 						.attr("class", "x axis")

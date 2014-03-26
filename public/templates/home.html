@@ -1,4 +1,4 @@
-<h1 id="welcome">Welcome to Decrypter</h1>
+<h1 id="welcome">Welcome to Decryptsy</h1>
 
 
 <h2>Cryptsy Resistance Levels</h2>
@@ -29,10 +29,9 @@ Search Table: <input ng-model="query">
 		</th>
 		<th>
 			<a href="" ng-click="orderByField='last_trade_time'; reverseSort = !reverseSort">
-			</a>
 			Last Trade Time
-		</th>
-		<th>
+			</a>
+		</th>		<th>
 			<a href="" ng-click="orderByField='halfWall'; reverseSort = !reverseSort">
 			BTC to 50%
 			</a>
@@ -64,7 +63,7 @@ Search Table: <input ng-model="query">
 			<td>{{coinpair.secondary}}</td>
 			<td>{{coinpair.last_trade}}</td>
 			<td>{{coinpair.volume}}</td>
-			<td>{{coinpair.last_trade_time}}</td>
+			<td>{{coinpair.parsedTime}}</td>
 			<td>{{coinpair.halfWall}}</td>
 			<td>{{coinpair.doubleWall}}</td>
 			<td>{{coinpair.secondWall}}</td>
