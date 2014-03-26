@@ -20,7 +20,7 @@ Search Table: <input ng-model="query">
 			<td>{{arbitrage.quantity}}</td>
 			<td>{{arbitrage.highest_bid}}</td>
 			<td>{{arbitrage.lowest_ask}}</td>
-			<td>{{arbitrage.profit}}</td>
+			<td>{{+arbitrage.profit.toFixed(8)}}</td>
 		</tr>
 	</tbody>
 </table>
