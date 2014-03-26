@@ -34,6 +34,7 @@ app.controller('CoinpairShowCtrl', ['$scope', '$routeParams', 'Coinpair', 'Depth
 	$rootScope.$on('$routeChangeStart', function(event, next, current){
 		console.log('leaving')
 		$interval.cancel(depthInterval)
+		$('svg').remove();
 	})
 
 	$scope.candlestickData = TradeHistory.getCandlesticks();
@@ -41,6 +42,22 @@ app.controller('CoinpairShowCtrl', ['$scope', '$routeParams', 'Coinpair', 'Depth
 	$scope.tradeData = TradeHistory.getTrades();
 
 
+
+	$scope.hideDepth = true
+ //  $scope.hideHistory = false
+
+  $scope.toggleChart = function(){
+  	console.log('clicked')
+  	if($scope.hideDepth === false){
+  		console.log('hiding depth')
+  		$scope.hideDepth = true
+  	}
+  	else{
+  		console.log('hiding history')
+  		$scope.hideDepth = false
+  	}
+
+  }
 
 
 

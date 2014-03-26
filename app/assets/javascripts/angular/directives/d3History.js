@@ -13,23 +13,23 @@ app.directive('d3History', ['d3Service', '$interval', function(d3Service, $inter
 		link: function(scope, element, atrs){
 			d3Service.d3().then(function(d3){
 
-				var svg = d3.select('body')
+				var svg = d3.select(element[0])
 					.append('svg')
 			    .attr("width", width + margin.left + margin.right)
 			    .attr("height", height + margin.top + margin.bottom)
 			  	.append("g")
 			    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-				// scope.$watch('trade', function(newVal, oldVal){
-				// 	console.log('preparing to rerender')
-				// 	setTimeout(function(){
-				// 		scope.render(scope.candlestick, scope.trade)
-				// 	}, 1000)
-				// });
+				scope.$watch('trade', function(newVal, oldVal){
+					console.log('preparing to rerender')
+					setTimeout(function(){
+						scope.render(scope.candlestick, scope.trade)
+					}, 2000)
+				});
 
-				$interval(function(){
-					scope.render(scope.candlestick, scope.trade)
-				}, 5000)
+				// $interval(function(){
+				// 	scope.render(scope.candlestick, scope.trade)
+				// }, 5000)
 
 				scope.render = function(candlestick_history, trade_history){
 

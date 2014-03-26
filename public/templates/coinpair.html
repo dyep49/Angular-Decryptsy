@@ -31,10 +31,14 @@
 
 <h2>Last Trade: {{lastPrice[0]}} {{coinpairs[0].secondary}}</h2>
 
-<d3-line sell="sellData" buy="buyData">
+<button class='btn' ng-show="hideDepth" ng-click="toggleChart()">Show Depth Chart</button>
+
+<button class='btn' ng-hide="hideDepth" ng-click="toggleChart()">Show Line Chart</button>
+
+<d3-line sell="sellData" buy="buyData" ng-hide="hideDepth">
 </d3-line>
 
 
-<d3-history candlestick="candlestickData" trade="tradeData"></d3-history>
+<d3-history candlestick="candlestickData" trade="tradeData" id="candlestick" ng-show="hideDepth"></d3-history>
 
 

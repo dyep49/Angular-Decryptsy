@@ -16,6 +16,7 @@ app.directive('d3Line', ['d3Service', 'Depth', function(d3Service, Depth){
 				
 				var svg = d3.select(element[0])
 					.append('svg')
+					.attr('id', 'depth')
 			    .attr("width", width + margin.left + margin.right)
 			    .attr("height", height + margin.top + margin.bottom)
 				  .append("g")
