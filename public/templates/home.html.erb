@@ -77,20 +77,13 @@ Search Table: <input ng-model="query">
 </div>
 </div>
 
-<div class="twitter-height" twitter-timeline="441123702327881728" auto-resize="true" data-tweet-limit="5">Loading tweets...</div>
-
-<div class="twitter-height" twitter-timeline="441125817804812288" auto-resize="true" data-tweet-limit="5">Loading tweets...</div>
-
-
-
-
-<!-- <a class="twitter-timeline" href="https://twitter.com/search?q=%23cryptsy" data-widget-id="441123702327881728" data-chrome="nofooter transparent"  >Tweets about "#cryptsy"</a>
-
-<div id="graph-div">
+<div class="twitter-container">
+<h4>#cryptsy</h4>
+<div class="twitter-height" twitter-timeline="441123702327881728" auto-resize="true" data-tweet-limit="5" css-url="<%=asset_path(twitter.css) %>">Loading tweets...</div>
 </div>
 
+<div class="twitter-container">
+<h4>Pump Organizers</h4>
+<div class="twitter-height" twitter-timeline="441125817804812288" auto-resize="true" data-tweet-limit="5" css-url="<%=asset_path(twitter.css) %>">Loading tweets...</div>
+</div>
 
-<a class="twitter-timeline" id ="wide" href="https://twitter.com/dyep49/pump-organizers" data-widget-id="441125817804812288">Tweets from https://twitter.com/dyep49/pump-organizers</a>
-
-
- -->
