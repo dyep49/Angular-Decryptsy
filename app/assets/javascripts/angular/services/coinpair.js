@@ -1,18 +1,29 @@
 app.factory('Coinpair', ['$resource', '$http', function($resource, $http){
+	
 	function Coinpair(){
 		this.service = $resource(
 			'/api/coinpairs/:coinpairId', {coinpairId: '@id'})
 	};
+	Coinpair.prototype.all = function(){
+		self = this
+		return this.service.query(function(data){
+			data.forEach(function(coinpair){
+				calcResistance(coinpair)
+			});
+		});
+	}
+
+
 
 Coinpair.prototype.show = function(id){
-	return this.service.query({coinpairId: id});
+	return this.service.query({coinpairId: id}, function(data){
+			data.forEach(function(coinpair){
+				calcResistance(coinpair)
+			});
+	})
 }
 
-
-Coinpair.prototype.all = function(){
-	self = this
-	return this.service.query(function(data){
-		data.forEach(function(coinpair){
+var calcResistance = function(coinpair){
 			$http({method: 'GET', url: '/api/depth/' + coinpair.market_id}).
 				success(function(response){
 					var response = response
@@ -92,10 +103,11 @@ Coinpair.prototype.all = function(){
 					coinpair.secondWall = _.reduce(secondSellArray, function(memo, num){return memo + num;}, 0);
 					coinpair.thirdWall = _.reduce(thirdSellArray, function(memo, num){return memo + num;}, 0);
 					coinpair.fourthWall = _.reduce(fourthSellArray, function(memo, num){return memo + num;}, 0);
-						})
 		});
-	});
-};
+
+}
+
+
 
 	return new Coinpair;
 }]);
