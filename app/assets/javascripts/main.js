@@ -8,7 +8,7 @@ app.config(function($routeProvider){
 		})
 		.when('/arbitrage',{
 			templateUrl : 'templates/arbitrage.html',
-			controller  : 'CoinpairsCtrl'
+			controller  : 'ArbitrageCtrl'
 		})
 		.when('/coinpair/:coinpair_id',{
 			templateUrl : 'templates/coinpair.html',

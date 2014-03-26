@@ -9,8 +9,5 @@ app.controller('CoinpairsCtrl', ['$scope', 'Coinpair', '$location', function($sc
   	$location.path('/coinpair/' + id)
   }
 
-
-
-
-
 }]);
+
