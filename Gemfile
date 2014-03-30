@@ -44,9 +44,12 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+group :development do
+	gem 'pry'
+	gem 'pry-nav'
+end
+
 gem 'cryptsy-api'
-gem 'pry'
-gem 'pry-nav'
 gem 'angularjs-rails'
 gem 'btce'
 gem 'rspec-rails'

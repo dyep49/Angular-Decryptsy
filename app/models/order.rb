@@ -31,7 +31,6 @@ class Order < ActiveRecord::Base
 				volume = market["volume"].to_f
 				new_coin_pair = Coinpair.create(primary: primary, secondary: secondary, market_id: marketid, last_trade: last_trade, volume: volume, last_trade_time: last_trade_time)
 			end
-			binding.pry
 			sells = coinpair["sellorders"]
 			sells.each do |sell|
 				type = "sell"
