@@ -16,7 +16,6 @@ class Order < ActiveRecord::Base
 		cryptsy = Cryptsy::API::Client.new(ENV["CRYPTSY_PUBLIC_KEY"], ENV["CRYPTSY_PRIVATE_KEY"])
 		response = cryptsy.orderdata["return"].values
 		markets = cryptsy.marketdata["return"]["markets"]
-		binding.pry
 		response.each do |coinpair|
 			marketid = coinpair["marketid"].to_i
 			new_coin_pair = Coinpair.where(market_id: marketid)
