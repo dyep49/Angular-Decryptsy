@@ -1,6 +1,10 @@
 class Order < ActiveRecord::Base
 	belongs_to :coinpair
 
+	def price_with_fee
+		order_type == 'sell' ? price + coinpair.exchange.buy_fee * price : price - coinpair.exchange.sell_fee * price
+	end
+
 	def self.seed_orders
 		Order.cryptsy_depth
 		Order.bter_depth

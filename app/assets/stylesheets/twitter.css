@@ -75,7 +75,7 @@ div.no-tweets-pane {
 
 .twitter-container{
 	display: inline-block;
-	margin: 40px;
+	margin: 55px;
 	height: 100%;
 	width: 40%;
 	/*margin: 0 auto;*/
@@ -92,4 +92,8 @@ div.no-tweets-pane {
 
 .tweet {
 	width: 100%;
+}
+
+.timeline {
+	margin: 0 auto;
 }
