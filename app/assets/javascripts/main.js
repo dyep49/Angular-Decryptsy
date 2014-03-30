@@ -3,7 +3,7 @@ var app = angular.module("Decryptsy", ['ngResource', 'ngRoute', 'd3']);
 app.config(function($routeProvider){
 	$routeProvider
 		.when('/',{
-			templateUrl : 'templates/home.html.erb',
+			templateUrl : 'templates/home.html',
 			controller  : 'CoinpairsCtrl'
 		})
 		.when('/arbitrage',{
