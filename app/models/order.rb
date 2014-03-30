@@ -19,6 +19,7 @@ class Order < ActiveRecord::Base
 		response.each do |coinpair|
 			marketid = coinpair["marketid"].to_i
 			new_coin_pair = Coinpair.where(market_id: marketid)
+			begin
 			if new_coin_pair.any?
 				new_coin_pair = new_coin_pair.first
 			else
@@ -28,10 +29,9 @@ class Order < ActiveRecord::Base
 				last_trade_time = market["lasttradetime"]
 				last_trade = market["lasttradeprice"].to_f
 				volume = market["volume"].to_f
-
 				new_coin_pair = Coinpair.create(primary: primary, secondary: secondary, market_id: marketid, last_trade: last_trade, volume: volume, last_trade_time: last_trade_time)
 			end
-			begin
+			binding.pry
 			sells = coinpair["sellorders"]
 			sells.each do |sell|
 				type = "sell"
