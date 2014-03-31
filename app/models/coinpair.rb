@@ -1,3 +1,115 @@
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
 class Coinpair < ActiveRecord::Base
 	belongs_to :exchange
 	has_many :orders
@@ -41,85 +153,99 @@ At a high level, the following steps have to be taken:
 
 =end
 
-def arbitrage
+	def arbitrage
 		begin
 			matches = Coinpair.where(primary: self.primary, secondary: self.secondary)
-				#Check to see if more than one market has the coinpair
-				if matches.count > 1
-					#if it does, find the coinpair with the highest bid price after fees
-					bid_max_pair = Coinpair.find_max_pair(matches)
-					#then, it takes that coinpair and returns the order with the highest bid price, adjusted for exchange fees
+			if matches.count > 1
+				bid_max_pair = Coinpair.find_max_pair(matches)
+				bid_max_order = bid_max_pair.orders.where(order_type:'buy').max_by(&:price).price
+				bid_max_with_fees = bid_max_order - bid_max_pair.exchange.sell_fee * bid_max_order
 
-					bid_max_order = bid_max_pair.orders.where(order_type:'buy').max_by{|x| x.price}.price
-					bid_max_with_fees = bid_max_order - bid_max_pair.exchange.sell_fee * bid_max_order
-					#Iterates through the matching coinpairs and returns the coinpair with the lowest ask price after adjusting for exchange fees
-					ask_min_pair = Coinpair.find_min_pair(matches)
-					#then, it takes that coinpair and returns the order with the lowest bid price, adjust for exchange fees
-					ask_min_order = ask_min_pair.orders.where(order_type: 'sell').order(:price).first
-					ask_min_with_fees = ask_min_order.price + ask_min_pair.exchange.buy_fee * ask_min_order.price
-					#if the minimum ask price, is less than the maximum bid price, then an arbitrage opportunity exists
-					if ask_min_with_fees < bid_max_with_fees
-						#Calculates the ask price that guarantees arbitrage
-						breakeven_ask_price = bid_max_with_fees - ask_min_pair.exchange.buy_fee * bid_max_with_fees
-						#Creates an array of asks that are below the highest bid. Array is sorted by price, low to high
-						asks_below_bid_max = ask_min_pair.asks_below(breakeven_ask_price)
-						#Calculates the bid price that guarantees arbitrage
-						breakeven_bid_price = ask_min_with_fees + bid_max_pair.exchange.sell_fee * ask_min_with_fees
-						#Creates an array of bids that are above the breakeven bid price
-						bids_above_ask_min = bid_max_pair.bids_above(breakeven_bid_price)
-						#Creates an array of potential arbitrage orders. In the recursive method the order objects are directly manipulated, so clones were necessary  
-						cloned_asks = asks_below_bid_max.map do |ask|
-							ask.clone 
-						end
+				ask_min_pair = Coinpair.find_min_pair(matches)
+				ask_min_order = ask_min_pair.orders.where(order_type: 'sell').min_by(&:price).price
+				ask_min_with_fees = ask_min_order - ask_min_pair.exchange.buy_fee * ask_min_order
 
-						cloned_bids = bids_above_ask_min.map do |bid|
-							bid.clone 
-						end
+				breakeven_ask_price = bid_max_with_fees - ask_min_pair.exchange.buy_fee * bid_max_with_fees
+				breakeven_bid_price = ask_min_with_fees + bid_max_pair.exchange.sell_fee * ask_min_with_fees
 
-						order_array = []
-						arbitrage_array = Coinpair.arbitrage_recursion(cloned_bids, cloned_asks, order_array)
-						if arbitrage_array.count >= 1
-							buy_at = ask_min_pair.exchange
-							sell_at = bid_max_pair.exchange
-							quantity = arbitrage_array.inject(0){|sum, order| sum += order[0]}
-							profit = arbitrage_array.inject(0){|sum, order| sum += order[2]}
-							ArbitragePair.new(buy_exchange: buy_at, sell_exchange: sell_at, primary:self.primary, secondary:self.secondary, lowest_ask: ask_min_order.price, highest_bid: bid_max_order, quantity: quantity, profit: profit)
-						end
-					end
+				asks_below_bid_max = ask_min_pair.asks_below(breakeven_ask_price)
+				bids_above_ask_min = bid_max_pair.bids_above(breakeven_bid_price)
+
+				orders = arbitrage_orders(bids_above_ask_min, asks_below_bid_max)
+
+				if orders.any? && ask_min_with_fees < bid_max_with_fees
+					ArbitragePair.new(
+						quantity:      orders.sum(&:first),
+						profit:        orders.sum(&:last),
+						buy_exchange:  ask_min_pair.exchange,
+						sell_exchange: bid_max_pair.exchange,
+						lowest_ask:    ask_min_order,
+						highest_bid:   bid_max_order,
+						primary:       primary,
+						secondary:     secondary
+					)
 				end
+			end
 		rescue
 			#Occasionally, the market APIs provide inconsistent/corrupted data causing this method to fail. This method is used in a rake task, scheduled to run over 100+ coinpairs. This ensures that the entire task won't break in case of a small amount of inconsistent data.
 			puts "RESCUED"
 		end
 	end
 
-	def self.arbitrage_recursion(bids, asks, order_array)
-		unless bids.count == 0 || asks.count == 0
-			#Grabs the quantity of the highest bid and the lowest ask
-			ask_quantity = asks.first.quantity
-			bid_quantity = bids.last.quantity
-			#Grabs the price of the highest bid and lowest ask after fees
-			ask_price_with_fees = asks.first.price_with_fee
-			bid_price_with_fees = bids.last.price_with_fee
-			#Checks to see if arbitrage opportunity exists after fees
-			arbitrage_opportunity = ask_price_with_fees < bid_price_with_fees
-			#if there's a greater ask quantity than bid quantity an an arbitrage opportunity exists...
-			if ask_quantity >= bid_quantity && arbitrage_opportunity
-				profit = bid_price_with_fees * bid_quantity - ask_price_with_fees * bid_quantity
-				order_array << [bid_quantity, asks.first.price, profit]
-				asks.last.quantity -= bid_quantity  
-				bids.delete(bids.last)
-			elsif ask_quantity < bid_quantity && arbitrage_opportunity
-				profit = bid_price_with_fees * ask_quantity - ask_price_with_fees * ask_quantity
-				order_array << [ask_quantity, asks.first.price, profit]
-				bids.last.quantity -= ask_quantity  
-				asks.delete(asks.first)
+	def arbitrage_orders(bids, asks)
+		order_array = []
+		until bids.empty? || asks.empty?
+			ask_qty = asks.first.quantity
+			bid_qty = bids.last.quantity
+
+			ask_with_fees = asks.first.price_with_fee
+			bid_with_fees = bids.last.price_with_fee
+
+			arbitrage_opportunity = ask_with_fees < bid_with_fees
+
+			if ask_qty < bid_qty && arbitrage_opportunity
+				profit = bid_with_fees * ask_qty - ask_with_fees * ask_qty
+				order_array << [ask_qty, asks.first.price, profit]
+				bids.last.quantity -= ask_qty  
+				asks.shift
+			elsif arbitrage_opportunity
+				profit = bid_with_fees * bid_qty - ask_with_fees * bid_qty
+				order_array << [bid_qty, asks.first.price, profit]
+				asks.last.quantity -= bid_qty  
+				bids.pop
+			else
+				break
 			end
-			Coinpair.arbitrage_recursion(bids, asks, order_array)
 		end
 		order_array
 	end
 
 
-
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
