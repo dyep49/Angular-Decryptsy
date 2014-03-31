@@ -4,29 +4,29 @@ class Coinpair < ActiveRecord::Base
 	has_many :trades
 
 	def similar?(other_coinpair)
-		self.primary == other_coinpair.primary && self.secondary == other_coinpair.secondary
+		primary == other_coinpair.primary && secondary == other_coinpair.secondary
 	end
 
 	def self.find_max_pair(matches)
 		matches.max_by do |match| 
 			price = match.orders.where(order_type:'buy').first.price
-			price_with_fees = price - match.exchange.sell_fee * price
+			price - match.exchange.sell_fee * price
 		end
 	end
 
 	def self.find_min_pair(matches)
 		matches.min_by do |match| 
 			price = match.orders.where(order_type: 'sell').first.price
-			price_with_fees = price + match.exchange.buy_fee * price
+			price + match.exchange.buy_fee * price
 		end
 	end
 
 	def asks_below(price)
-		self.orders.where("order_type = 'sell' AND price < '#{price}'").order(:price)
+		orders.where("order_type = 'sell' AND price < '#{price}'").order(:price)
 	end
 
 	def bids_above(price)
-		self.orders.where("order_type = 'buy' AND price > #{price}").order(:price)
+		orders.where("order_type = 'buy' AND price > #{price}").order(:price)
 	end
 
 =begin
