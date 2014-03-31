@@ -47,21 +47,21 @@ At a high level, the following steps have to be taken:
 			if matches.count > 1
 				bid_max_pair = Coinpair.find_max_pair(matches)
 				bid_max_order = bid_max_pair.orders.where(order_type:'buy').max_by(&:price).price
-				bid_max_with_fees = bid_max_order - bid_max_pair.exchange.sell_fee * bid_max_order
+				bid_max_fees = bid_max_order - bid_max_pair.exchange.sell_fee * bid_max_order
 
 				ask_min_pair = Coinpair.find_min_pair(matches)
 				ask_min_order = ask_min_pair.orders.where(order_type: 'sell').min_by(&:price).price
-				ask_min_with_fees = ask_min_order - ask_min_pair.exchange.buy_fee * ask_min_order
+				ask_min_fees = ask_min_order - ask_min_pair.exchange.buy_fee * ask_min_order
 
-				breakeven_ask_price = bid_max_with_fees - ask_min_pair.exchange.buy_fee * bid_max_with_fees
-				breakeven_bid_price = ask_min_with_fees + bid_max_pair.exchange.sell_fee * ask_min_with_fees
+				breakeven_ask_price = bid_max_fees - ask_min_pair.exchange.buy_fee * bid_max_fees
+				breakeven_bid_price = ask_min_fees + bid_max_pair.exchange.sell_fee * ask_min_fees
 
 				asks_below_bid_max = ask_min_pair.asks_below(breakeven_ask_price)
 				bids_above_ask_min = bid_max_pair.bids_above(breakeven_bid_price)
 
 				orders = arbitrage_orders(bids_above_ask_min, asks_below_bid_max)
 
-				if orders.any? && ask_min_with_fees < bid_max_with_fees
+				if orders.any? && ask_min_fees < bid_max_fees
 					ArbitragePair.new(
 						quantity:      orders.sum(&:first),
 						profit:        orders.sum(&:last),
@@ -92,12 +92,12 @@ At a high level, the following steps have to be taken:
 			arbitrage_opportunity = ask_with_fees < bid_with_fees
 
 			if ask_qty < bid_qty && arbitrage_opportunity
-				profit = bid_with_fees * ask_qty - ask_with_fees * ask_qty
+				profit = (bid_with_fees - ask_with_fees) * ask_qty
 				order_array << [ask_qty, asks.first.price, profit]
 				bids.last.quantity -= ask_qty  
 				asks.shift
 			elsif arbitrage_opportunity
-				profit = bid_with_fees * bid_qty - ask_with_fees * bid_qty
+				profit = (bid_with_fees - ask_with_fees) * bid_qty				
 				order_array << [bid_qty, asks.first.price, profit]
 				asks.last.quantity -= bid_qty  
 				bids.pop
