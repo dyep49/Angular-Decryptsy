@@ -53,11 +53,11 @@ At a high level, the following steps have to be taken:
 				ask_min_order = ask_min_pair.orders.where(order_type: 'sell').min_by(&:price).price
 				ask_min_fees = ask_min_order - ask_min_pair.exchange.buy_fee * ask_min_order
 
-				breakeven_ask_price = bid_max_fees - ask_min_pair.exchange.buy_fee * bid_max_fees
-				breakeven_bid_price = ask_min_fees + bid_max_pair.exchange.sell_fee * ask_min_fees
+				breakeven_ask = bid_max_fees - ask_min_pair.exchange.buy_fee * bid_max_fees
+				breakeven_bid = ask_min_fees + bid_max_pair.exchange.sell_fee * ask_min_fees
 
-				asks_below_bid_max = ask_min_pair.asks_below(breakeven_ask_price)
-				bids_above_ask_min = bid_max_pair.bids_above(breakeven_bid_price)
+				asks_below_bid_max = ask_min_pair.asks_below(breakeven_ask)
+				bids_above_ask_min = bid_max_pair.bids_above(breakeven_bid)
 
 				orders = arbitrage_orders(bids_above_ask_min, asks_below_bid_max)
 
