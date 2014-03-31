@@ -9,14 +9,14 @@ class Coinpair < ActiveRecord::Base
 
 	def self.find_max_pair(matches)
 		matches.max_by do |match| 
-			price = match.orders.where(order_type:'buy').first.price
+			price = match.orders.where(order_type:'buy').max_by(&:price).price
 			price - match.exchange.sell_fee * price
 		end
 	end
 
 	def self.find_min_pair(matches)
 		matches.min_by do |match| 
-			price = match.orders.where(order_type: 'sell').first.price
+			price = match.orders.where(order_type: 'sell').min_by(&:price).price
 			price + match.exchange.buy_fee * price
 		end
 	end
@@ -42,9 +42,9 @@ At a high level, the following steps have to be taken:
 =end
 
 	def arbitrage
-		begin
-			matches = Coinpair.where(primary: self.primary, secondary: self.secondary)
+			matches = Coinpair.where(primary: primary, secondary: secondary)
 			if matches.count > 1
+
 				bid_max_pair = Coinpair.find_max_pair(matches)
 				bid_max_order = bid_max_pair.orders.where(order_type:'buy').max_by(&:price).price
 				bid_max_fees = bid_max_order - bid_max_pair.exchange.sell_fee * bid_max_order
@@ -77,7 +77,6 @@ At a high level, the following steps have to be taken:
 		rescue
 			#Occasionally, the market APIs provide inconsistent/corrupted data causing this method to fail. This method is used in a rake task, scheduled to run over 100+ coinpairs. This ensures that the entire task won't break in case of a small amount of inconsistent data.
 			puts "RESCUED"
-		end
 	end
 
 	def arbitrage_orders(bids, asks)
