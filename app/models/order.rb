@@ -71,6 +71,7 @@ class Order < ActiveRecord::Base
 				new_coin_pair = Coinpair.create(primary: primary, secondary: secondary)
 			end
 			depth = HTTParty.get('http://data.bter.com/api/1/depth/' + primary + '_' + secondary)
+			begin
 			depth["asks"].each do |ask|
 				type = "sell"
 				price = ask[0].to_f
@@ -86,6 +87,10 @@ class Order < ActiveRecord::Base
 				new_coin_pair.orders << order
 			end
 		bter.coinpairs << new_coin_pair
+		rescue
+			puts "rescued"
+		end
+
 		end
 	end
 
@@ -102,6 +107,7 @@ class Order < ActiveRecord::Base
 			else
 				new_coin_pair = Coinpair.create(primary: primary, secondary: secondary)
 			end
+			begin
 			depth = Btce::Depth.new(pair).json[pair]
 			depth["asks"].each do |ask|
 				type = "sell"
@@ -118,7 +124,11 @@ class Order < ActiveRecord::Base
 				new_coin_pair.orders << order
 			end
 			btce.coinpairs << new_coin_pair
+					rescue
+			puts "rescued"
 		end
+		end
+
 	end
 
 end

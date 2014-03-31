@@ -49,7 +49,8 @@ def arbitrage
 					#if it does, find the coinpair with the highest bid price after fees
 					bid_max_pair = Coinpair.find_max_pair(matches)
 					#then, it takes that coinpair and returns the order with the highest bid price, adjusted for exchange fees
-					bid_max_order = bid_max_pair.orders.where(order_type:'buy').max(&:price).price
+
+					bid_max_order = bid_max_pair.orders.where(order_type:'buy').max_by{|x| x.price}.price
 					bid_max_with_fees = bid_max_order - bid_max_pair.exchange.sell_fee * bid_max_order
 					#Iterates through the matching coinpairs and returns the coinpair with the lowest ask price after adjusting for exchange fees
 					ask_min_pair = Coinpair.find_min_pair(matches)
