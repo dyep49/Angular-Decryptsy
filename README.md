@@ -16,4 +16,5 @@ Using this table of resistance levels, one can purchase the currencies with the 
 
 ##Specs
 Backend: Rails, PostgreSQL
+
 Frontend: Angular
