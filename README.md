@@ -4,7 +4,7 @@ http://decryptsy.herokuapp.com/
 ##What does it do?
 Decrypsty provides live updating depth charts, candlestick charts, arbitrage opportunities, and additional tools of analytsis for cryptocurrency market analysis.
 
-##Levels of Resistance
+##Levels of Resistance Explained
 
 ![Alt text](http://i.imgur.com/pciqvOt.png)
 
